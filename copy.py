@@ -11,34 +11,34 @@ NUMA-aware hardware.
 
 When to use which function
 --------------------------
-* :func:`parallel_copy` — explicit control over chunk size and executor.
+* `parallel_copy` — explicit control over chunk size and executor.
   Use when you have measured the optimal chunk size for your workload.
-* :func:`tuned_parallel_copy` — automatic strategy selection based on
+* `tuned_parallel_copy` — automatic strategy selection based on
   transfer size.  Prefer this for general-purpose call sites.
 
 Executor lifecycle
 ------------------
 A single :class:`~concurrent.futures.ThreadPoolExecutor` is shared across all
-callers via :func:`get_global_executor`.  It is created lazily on first use
-and registered for graceful shutdown at interpreter exit via :func:`atexit`.
+callers via `get_global_executor`.  It is created lazily on first use
+and registered for graceful shutdown at interpreter exit via `atexit`.
 Threads are named ``PBO_Uploader-N`` to make them identifiable in profilers
 and debuggers.
 
 Thread-safety
 -------------
-:func:`get_global_executor` uses a module-level global.  In CPython the GIL
+`get_global_executor` uses a module-level global.  In CPython the GIL
 makes the ``if _GLOBAL_EXECUTOR is None`` check safe against concurrent
 initialisation from multiple threads, but this is an implementation detail.
 Callers that spin up their own threads before the first call to
-:func:`get_global_executor` should ensure the executor is created on the main
+`get_global_executor` should ensure the executor is created on the main
 thread first to avoid any ambiguity.
 
 Performance notes
 -----------------
 * The parallel path has a fixed overhead from task scheduling.  For small
   transfers this overhead exceeds the benefit, which is why
-  :func:`parallel_copy` falls back to a single ``memmove`` when the payload
-  fits in one chunk, and why :func:`tuned_parallel_copy` starts the parallel
+  `parallel_copy` falls back to a single ``memmove`` when the payload
+  fits in one chunk, and why `tuned_parallel_copy` starts the parallel
   path at 8 MiB.
 * Workers capture ``ctypes.memmove`` as a local reference to avoid a
   per-call global lookup inside the tight copy loop.
@@ -67,14 +67,14 @@ __all__ = [
 # Module-level constants
 # ---------------------------------------------------------------------------
 
-#: Default number of bytes assigned to each worker thread in
-#: :func:`parallel_copy`.  4 MiB balances scheduling overhead against the
-#: benefit of parallelism across typical L3 cache sizes.
+# Default number of bytes assigned to each worker thread in
+# `parallel_copy`.  4 MiB balances scheduling overhead against the
+# benefit of parallelism across typical L3 cache sizes.
 DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024   # 4 MiB
 
-#: Hard upper bound on the thread count used by :func:`get_global_executor`.
-#: PBO uploads are memory-bandwidth-bound, not compute-bound; more than four
-#: threads rarely improves throughput and increases context-switching overhead.
+# Hard upper bound on the thread count used by `get_global_executor`.
+# PBO uploads are memory-bandwidth-bound, not compute-bound; more than four
+# threads rarely improves throughput and increases context-switching overhead.
 MAX_WORKERS_LIMIT = 4
 
 # ---------------------------------------------------------------------------
@@ -92,7 +92,7 @@ def get_global_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor
     Return the process-wide :class:`~concurrent.futures.ThreadPoolExecutor`.
 
     Creates the executor on the first call and reuses it thereafter.  The
-    thread count is capped at :data:`MAX_WORKERS_LIMIT` because PBO transfers
+    thread count is capped at `MAX_WORKERS_LIMIT` because PBO transfers
     are memory-bandwidth-bound: additional threads beyond this point contend
     for the same memory bus without improving throughput.
 
@@ -174,11 +174,11 @@ def parallel_copy(
         src_data:   Source array.  Must be C-contiguous (standard NumPy
                     arrays are contiguous by default; slices may not be).
         chunk_size: Byte size of each worker's slice.  Defaults to
-                    :data:`DEFAULT_CHUNK_SIZE` (4 MiB).  Larger chunks reduce
+                    `DEFAULT_CHUNK_SIZE` (4 MiB).  Larger chunks reduce
                     scheduling overhead but may leave CPU cores idle at the
                     end of an uneven transfer.
         executor:   Pool to use.  When ``None`` (the default), the shared
-                    global executor from :func:`get_global_executor` is used.
+                    global executor from `get_global_executor` is used.
 
     Raises:
         ValueError: If ``dst_ptr`` is a ``ctypes.c_void_p`` whose ``.value``
@@ -244,7 +244,7 @@ def tuned_parallel_copy(
     """
     Copy ``src_data`` to ``dst_ptr`` using an automatically selected strategy.
 
-    Chooses between a single ``memmove`` and :func:`parallel_copy` with an
+    Chooses between a single ``memmove`` and `parallel_copy` with an
     appropriate chunk size based on the total transfer size.  The thresholds
     are tuned for typical image workloads on desktop hardware:
 
@@ -267,7 +267,7 @@ def tuned_parallel_copy(
     Note:
         The thresholds were chosen empirically.  Workloads with non-standard
         frame sizes or memory subsystem characteristics may benefit from
-        calling :func:`parallel_copy` directly with a measured chunk size.
+        calling `parallel_copy` directly with a measured chunk size.
     """
     nbytes = src_data.nbytes
 
