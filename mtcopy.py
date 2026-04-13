@@ -18,7 +18,7 @@ When to use which function
 
 Executor lifecycle
 ------------------
-A single :class:`~concurrent.futures.ThreadPoolExecutor` is shared across all
+A single `~concurrent.futures.ThreadPoolExecutor` is shared across all
 callers via `get_global_executor`.  It is created lazily on first use
 and registered for graceful shutdown at interpreter exit via `atexit`.
 Threads are named ``PBO_Uploader-N`` to make them identifiable in profilers
@@ -89,7 +89,7 @@ _GLOBAL_EXECUTOR: Optional[ThreadPoolExecutor] = None
 
 def get_global_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor:
     """
-    Return the process-wide :class:`~concurrent.futures.ThreadPoolExecutor`.
+    Return the process-wide `~concurrent.futures.ThreadPoolExecutor`.
 
     Creates the executor on the first call and reuses it thereafter.  The
     thread count is capped at `MAX_WORKERS_LIMIT` because PBO transfers
@@ -102,10 +102,10 @@ def get_global_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor
             on all calls after the first — the pool size is fixed at creation.
 
     Returns:
-        The shared :class:`~concurrent.futures.ThreadPoolExecutor` instance.
+        The shared `~concurrent.futures.ThreadPoolExecutor` instance.
 
     Note:
-        The executor is registered for shutdown via :mod:`atexit` at module
+        The executor is registered for shutdown via `atexit` at module
         import time.  Calling this function after the interpreter has begun
         its exit sequence (e.g. inside another ``atexit`` handler) may return
         a pool that is already shut down.
@@ -126,7 +126,7 @@ def get_global_executor(max_workers: Optional[int] = None) -> ThreadPoolExecutor
 
 def _shutdown_executor() -> None:
     """
-    Graceful shutdown hook registered with :mod:`atexit`.
+    Graceful shutdown hook registered with `atexit`.
 
     Called automatically when the interpreter begins its exit sequence.
     ``wait=False`` allows the process to exit without blocking for in-flight
@@ -170,7 +170,7 @@ def parallel_copy(
     Args:
         dst_ptr:    Destination memory address.  Accepts either a plain
                     ``int`` or a ``ctypes.c_void_p``.  A ``c_void_p`` with
-                    ``value=None`` is rejected with :exc:`ValueError`.
+                    ``value=None`` is rejected with `ValueError`.
         src_data:   Source array.  Must be C-contiguous (standard NumPy
                     arrays are contiguous by default; slices may not be).
         chunk_size: Byte size of each worker's slice.  Defaults to
