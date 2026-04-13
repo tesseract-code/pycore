@@ -20,9 +20,9 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-import cross_platform.pycore.mtcopy as copy_mod  # import the module itself
+import pycore.mtcopy as copy_mod  # import the module itself
 # for global state manipulation
-from cross_platform.pycore.mtcopy import (
+from pycore.mtcopy import (
     DEFAULT_CHUNK_SIZE,
     MAX_WORKERS_LIMIT,
     get_global_executor,
@@ -496,7 +496,7 @@ class TestModuleConstants:
         assert MAX_WORKERS_LIMIT == 4
 
     def test_dunder_all_exports(self):
-        import cross_platform.pycore.mtcopy as m
+        import pycore.mtcopy as m
         assert "get_global_executor" in m.__all__
         assert "parallel_copy" in m.__all__
         assert "tuned_parallel_copy" in m.__all__
