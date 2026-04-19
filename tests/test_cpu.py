@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from pycore import cpu_utils
+from pycore import cpu
 
 
 @patch('psutil.Process')
