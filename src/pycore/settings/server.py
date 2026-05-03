@@ -29,7 +29,7 @@ from pycore.settings.history import SettingsHistory, ChangeMetadata, \
 from pycore.settings.msg import OperationType, SettingsRequest, \
     SettingsResponse
 from pycore.settings.validator import SettingsValidator
-from pycore.zmq_utils import ZMQActor
+from pycore.zmq.actor import ZMQActor
 
 logger = logging.getLogger(__name__)
 

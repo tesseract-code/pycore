@@ -1,0 +1,12 @@
+from typing import Final
+
+import logging
+
+DEFAULT_LOG_LEVEL: Final[int] = logging.DEBUG
+DEFAULT_PORT = 4069
+DEFAULT_TIMEOUT = 5.0
+DEFAULT_MAX_BYTES = 10 * 1024 * 1024
+DEFAULT_BACKUP_COUNT = 5
+MAX_MESSAGE_SIZE = 1024 * 1024  # 1MB max per log message
+SERVER_START_TIMEOUT = 2.0
+THREAD_JOIN_TIMEOUT = 5.0

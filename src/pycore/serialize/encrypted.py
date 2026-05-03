@@ -3,7 +3,7 @@ EncryptedSerializer
 
 Wraps any serializer and applies authenticated encryption.
 
-Algorithm: Fernet = AES-128-CBC + HMAC-SHA256, per cryptography.io.
+Algorithm: Fernet = AES-128-CBC + HMAC-SHA256, per cryptography.load.
   - Provides both confidentiality and integrity (tamper-evident).
   - A tampered ciphertext raises InvalidToken rather than silently producing
     garbage — critical for security-sensitive deserialization (OWASP guideline).

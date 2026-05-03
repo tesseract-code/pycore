@@ -8,10 +8,8 @@ Usage:
     python check_log_server.py --scan          # Scan all ports in range
     python check_log_server.py --json          # Output as JSON
 """
-import sys
-import argparse
 import json
-from pycore.log.mngr import PortManager
+from pycore.log.port import PortManager
 
 
 def check_specific_port(port: int, output_json: bool = False) -> bool:

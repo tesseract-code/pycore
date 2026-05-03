@@ -305,6 +305,17 @@ class Connection:
 # Synchronous Helper Functions
 # ---------------------------------------------------------------------------
 
+def find_free_port() -> int:
+    """
+    Find a free port by letting the OS pick one.
+
+    Returns:
+        A free port number chosen by the OS.
+    """
+    with socket.socket() as sock:
+        sock.bind(("", 0))
+        return sock.getsockname()[1]
+
 def is_port_alive(
     host: str,
     port: int,

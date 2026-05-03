@@ -3,8 +3,8 @@ from typing import Optional, Any, Dict
 
 import zmq
 
-from pycore.settings.server import ZMQActor
 from pycore.settings.msg import OperationType, SettingsRequest, SettingsResponse
+from pycore.zmq.actor import ZMQActor
 
 
 class SettingsClient(ZMQActor):

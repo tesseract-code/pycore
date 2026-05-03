@@ -10,6 +10,7 @@ class FileExtensionCategory(Enum):
     IMAGE = "image"
     DOCUMENT = "document"
     CODE = "code"
+    MODEL_3D = "model"
     SPREADSHEET = "spreadsheet"
     PDF = "pdf"
     VIDEO = "video"
@@ -46,6 +47,9 @@ class FileTypeHelper:
             '.html', '.htm', '.xml', '.json', '.yaml', '.yml', '.sh', '.rs',
             '.go'
         }),
+
+        FileExtensionCategory.MODEL_3D: frozenset({
+            '.stl', '.obj', '.ply', '.vtp','.vtk'}),
         FileExtensionCategory.SPREADSHEET: frozenset({
             '.csv', '.xls', '.xlsx', '.ods'
         }),
