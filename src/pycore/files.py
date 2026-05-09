@@ -45,11 +45,11 @@ class FileTypeHelper:
         FileExtensionCategory.CODE: frozenset({
             '.py', '.ipynb', '.js', '.java', '.cpp', '.c', '.h', '.css',
             '.html', '.htm', '.xml', '.json', '.yaml', '.yml', '.sh', '.rs',
-            '.go'
+            '.go',
         }),
 
         FileExtensionCategory.MODEL_3D: frozenset({
-            '.stl', '.obj', '.ply', '.vtp','.vtk'}),
+            '.stl', '.obj', '.ply', '.vtp','.vtk', '.case'}),
         FileExtensionCategory.SPREADSHEET: frozenset({
             '.csv', '.xls', '.xlsx', '.ods'
         }),
